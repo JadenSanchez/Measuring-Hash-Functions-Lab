@@ -1,0 +1,33 @@
+n = 50000 keys, alpha = 0.763, ideal avg_cmp = 1 + alpha/2 = 1.38
+
+A. integer student IDs 2019xxxx..2026xxxx
+  k % 65536 (power of 2)     m=65536  used= 46786 longest=    2 avg_cmp=     1.06
+  k % 65521 (prime)          m=65521  used= 46771 longest=    2 avg_cmp=     1.06
+  Fibonacci, top 16 bits     m=65536  used= 46363 longest=    2 avg_cmp=     1.07
+  fmix64, low 16 bits        m=65536  used= 34968 longest=    7 avg_cmp=     1.38
+  universal                  m=65536  used= 34230 longest=    2 avg_cmp=     1.32
+
+B. addresses that are multiples of 16 (like malloc results)
+  k % 65536 (power of 2)     m=65536  used=  4096 longest=   13 avg_cmp=     6.61
+  k % 65521 (prime)          m=65521  used= 50000 longest=    1 avg_cmp=     1.00
+  Fibonacci, top 16 bits     m=65536  used= 32670 longest=    2 avg_cmp=     1.35
+  fmix64, low 16 bits        m=65536  used= 34985 longest=    6 avg_cmp=     1.38
+  universal                  n/a: keys exceed p = 2^31 - 1
+
+C. student IDs as strings
+  sum of characters          m=65536  used=    41 longest= 3330 avg_cmp=  1200.94
+  poly31 (Java hashCode)     m=65536  used= 27064 longest=    4 avg_cmp=     1.68
+  djb2                       m=65536  used= 25068 longest=    5 avg_cmp=     1.78
+  FNV-1a                     m=65536  used= 33924 longest=    7 avg_cmp=     1.42
+
+D. names item0 .. item49999
+  sum of characters          m=65536  used=   131 longest= 2623 avg_cmp=   798.25
+  poly31 (Java hashCode)     m=65536  used= 27210 longest=    6 avg_cmp=     1.79
+  djb2                       m=65536  used= 26758 longest=    6 avg_cmp=     1.81
+  FNV-1a                     m=65536  used= 33382 longest=    7 avg_cmp=     1.44
+
+speed (8-char IDs, 200 x 50000 hashes)
+  sum      3.73 ns per key
+  poly31   3.59 ns per key
+  djb2     3.51 ns per key
+  FNV-1a   3.27 ns per key
